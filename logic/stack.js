@@ -8,15 +8,15 @@ class Stack {
     return this.array.length === 0;
   }
 
-  push(item) {
+  stack(item) {
     // add item to the stack
-    this.array.push(item);
+    this.array.unshift(item);
   }
 
-  pop() {
+  unstack() {
     if (this.isEmpty()) return "No Item To Remove.";
     // remove last item in the stack
-    return this.array.pop();
+    return this.array.shift();
   }
 
   peek() {
