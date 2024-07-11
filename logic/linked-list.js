@@ -274,17 +274,6 @@ class SinglyLinkedList {
   }
 }
 
-let transactionsData = await fetchAndPrepareTransactionsData();
-
-// let listnode = listnodes.at(-1);
-
-// for (let i = listnodes.length - 1; i >= 0; i--) {
-//   listnode = listnodes[i];
-//   listnode.next = listnodes[i + 1] || null;
-// }
-
-// transactionsData.forEach((entry) => linkedList.add(entry));
-
 let linkedList = new SinglyLinkedList();
 
 const l = console.log;
