@@ -6,7 +6,6 @@ class ListNode {
     this.next = null;
   }
 }
-
 class SinglyLinkedList {
   constructor(head = null) {
     this.head = head;
@@ -17,6 +16,7 @@ class SinglyLinkedList {
   add(value) {
     let newNode = new ListNode(value);
 
+    this.head = this.tail = newNode;
     if (!this.head) {
       // no head: no items in list
       this.head = newNode;

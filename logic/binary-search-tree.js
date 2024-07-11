@@ -15,38 +15,58 @@ class BinarySearchTree {
     let newNode = new TreeNode(value);
     // check if tree contains any nodes before
 
-    if (this.size === 0 && this.root === null) {
+    if (this.root === null) {
+      // check if root exists
+      // we compare it to null, because it could be zero
+      // we dont want false postive comparison
+
+      // set root = new node
       this.root = newNode;
       this.size++;
       return this;
     }
 
-    let tempRoot = this.root;
+    // set active
+    let activeRoot = this.root;
 
     while (true) {
-      // check if new node belongs to left or right of the root
-      if (value === tempRoot.value) {
+      // run infinite loop to itterate over bst nodes.
+
+      if (value === activeRoot.value) {
+        // if new value is equal to active node value
         return this;
       }
 
-      if (value < tempRoot.value) {
+      // check if new node belongs to left or right of the root
+      if (value < activeRoot.value) {
         // belongs to left
-        if (tempRoot.left === null) {
-          tempRoot.left = newNode;
+
+        if (activeRoot.left === null) {
+          // if not more nodes to the left
+          // set left to new node
+          // infinite itteration ends
+          activeRoot.left = newNode;
           this.size++;
           return this;
         }
 
-        tempRoot = tempRoot.left;
-      } else if (value > tempRoot.value) {
+        // otherwise keep setting activeRoot = left of activeRoot
+        // untill we encounter null (satisfies above if condition)
+        activeRoot = activeRoot.left;
+      } else if (value > activeRoot.value) {
         // belongs to right
-        if (tempRoot.right === null) {
-          tempRoot.right = newNode;
+        if (activeRoot.right === null) {
+          // if not more nodes to the right
+          // set right to new node
+          // infinite itteration ends
+          activeRoot.right = newNode;
           this.size++;
           return this;
         }
 
-        tempRoot = tempRoot.right;
+        // otherwise keep setting activeRoot = right of activeRoot
+        // until we encounter null (satisfies above if condition)
+        activeRoot = activeRoot.right;
       } else {
         return this;
       }
@@ -54,69 +74,83 @@ class BinarySearchTree {
   }
 
   lookup(value) {
-    if (this.size === 0 || this.root === null) {
-      return false;
+    if (this.root === null) {
+      return undefined;
     }
 
-    let tempRoot = this.root;
+    // set active root variable = current root
+    let activeRootNode = this.root;
+
     while (true) {
-      console.log("itr");
-      if (value === tempRoot.value) {
-        return true;
+      // itterate infinitly over tree nodes
+
+      if (value === activeRootNode.value) {
+        // found: return activeRootNode
+        return activeRootNode;
       }
 
-      if (value < tempRoot.value) {
-        // left
-        if (tempRoot.left === null) {
-          return false;
+      // compare and find out to which side target node belongs
+      if (value < activeRootNode.value) {
+        // belongs to left
+        if (activeRootNode.left === null) {
+          // reach end: no more smaller nodes
+          // not found
+          return undefined;
         }
-        tempRoot = tempRoot.left;
-      } else if (value > tempRoot.value) {
-        if (tempRoot.right === null) {
-          return false;
+
+        // keep setting active root node = left of current active root node
+        activeRootNode = activeRootNode.left;
+      } else if (value > activeRootNode.value) {
+        // belongs to right
+        if (activeRootNode.right === null) {
+          // reach end: no more bigger nodes
+          // not found
+          return undefined;
         }
-        tempRoot = tempRoot.right;
+
+        // keep setting active root node = right of current active root node
+        activeRootNode = activeRootNode.right;
       } else {
-        return false;
+        return undefined;
       }
     }
   }
 
-  minValueNode() {
-    let tempRoot = this.root;
+  treeMinValue() {
+    let activeRootNode = this.root;
+    // itterate infinitly over tree nodes
     while (true) {
-      if (tempRoot.left === null) return tempRoot;
-      tempRoot = tempRoot.left;
+      // until we have reach tree left end (no more smaller nodes)
+      if (activeRootNode.left === null) return activeRootNode;
+
+      // keep setting active root node = left of current active root node
+      activeRootNode = activeRootNode.left;
     }
   }
 
-  maxValueNode() {
-    let tempRoot = this.root;
+  treeMaxValue() {
+    let activeRootNode = this.root;
+    // itterate infinitly over tree nodes
     while (true) {
-      if (tempRoot.right === null) return tempRoot;
-      tempRoot = tempRoot.right;
-    }
-  }
+      // until we have reach tree right end (no more bigger nodes)
+      if (activeRootNode.right === null) return activeRootNode;
 
-  getSize() {
-    return this.size;
+      // keep setting active root node = right of current active root node
+      activeRootNode = activeRootNode.right;
+    }
   }
 }
 
 let tree = new BinarySearchTree();
 
-let arr = [];
-for (let a = 1; a < 1001; a++) {
-  arr.push(a);
-}
-
-arr.forEach((e) => {
-  tree.insert(e * Math.floor(Math.random() * 9 + 1));
-});
-
-console.log(tree.lookup(100));
-// console.log(tree.insert(2));
-console.log(tree.minValueNode());
-console.log(tree.maxValueNode());
-
-console.log(tree);
+tree.insert(45);
+tree.insert(15);
+tree.insert(79);
+tree.insert(90);
+tree.insert(10);
+tree.insert(55);
+tree.insert(12);
+console.log(tree.lookup(90)); // { left: null, right: null, value: 90 }
+console.log(tree.lookup(100)); // undefined
+console.log(tree.treeMinValue()); // 10
+console.log(tree.treeMaxValue()); // 90

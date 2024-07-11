@@ -68,3 +68,10 @@ stack.stack(100);
 console.log(stack.print());
 stack.stack(100);
 console.log(stack.print());
+console.log(stack.peek());
+
+// stack.print();
+// console.log(stack.peek());
+// stack.unstack();
+// console.log(stack.peek());
+// stack.print();
